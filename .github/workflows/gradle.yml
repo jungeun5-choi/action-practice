@@ -22,19 +22,27 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: 리포지토리 체크아웃하기
-      uses: actions/checkout@v3
-      
-    - name: JDK 17 설치
-      uses: actions/setup-java@v3
-      with:
-        java-version: '17'
-        distribution: 'adopt'
+      - name: 리포지토리 체크아웃하기
+        uses: actions/checkout@v3
 
-    - name: Gradle 실행 허가
-      run: chmod +x ./gradlew
-        
-    - name: Build with Gradle
-      uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
-      with:
-        arguments: build
+      - name: JDK 17 설치
+        uses: actions/setup-java@v3
+        with:
+          java-version: '17'
+          distribution: 'adopt'
+
+      - name: Gradle 실행 허가
+        run: chmod +x ./gradlew
+
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@bd5760595778326ba7f1441bcf7e88b49de61a25 # v2.6.0
+        with:
+          arguments: build
+
+      - name: 테스트 결과 PR에 코멘트 작성
+        uses: EnricoMi/publish-unit-test-result-action@v2
+        if: always() # 테스트가 실패했을때만 or 테스트가 성공했을때만 알려주기(여기선 둘다!)
+        with:
+        files: |
+          **/build/test-results/**/*.xml
+        # 테스트 코드의 result가 담긴 파일인가 봐요 인텔리제이에 생기더라구..?
