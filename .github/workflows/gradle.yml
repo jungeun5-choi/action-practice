@@ -44,6 +44,6 @@ jobs:
         uses: EnricoMi/publish-unit-test-result-action@v2
         if: always() # 테스트가 실패했을때만 or 테스트가 성공했을때만 알려주기(여기선 둘다!)
         with:
-        files: |
-          **/build/test-results/**/*.xml
+          files: |
+            **/build/test-results/**/*.xml
         # 테스트 코드의 result가 담긴 파일인가 봐요 인텔리제이에 생기더라구..?
